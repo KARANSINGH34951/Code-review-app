@@ -44,5 +44,5 @@ Contributions are welcome! Please fork the repository and create a pull request 
 This project is licensed under the [MIT License](https://opensource.org/licenses/MIT) - see the LICENSE file for details.
 
 ## Contact
-For questions or feedback, feel free to reach out at [your_email@example.com](mailto:ceitkaransingh2026@example.com).
+For questions or feedback, feel free to reach out at [ceitkaransingh2026@gmail.com](mailto:ceitkaransingh2026@example.com).
 
