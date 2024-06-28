@@ -1,6 +1,9 @@
 import React from "react";
+import { useSelector } from 'react-redux';
+import { selector } from '../feature/userSlice';
 
 const NavBar = () => {
+  const user = useSelector(selector);
   return (
     <nav className="bg-black shadow-md">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -20,12 +23,27 @@ const NavBar = () => {
           </div>
           <div className="block">
             <div className="ml-4 flex items-center md:ml-6">
-              <button className="px-4 py-2 bg-blue-500 text-white text-sm rounded-md hover:bg-blue-600 transition-colors">Login</button>
-              <button className="ml-4 px-4 py-2 bg-green-500 text-white text-sm rounded-md hover:bg-green-600 transition-colors">Sign Up</button>
+             {user.userloggedIn &&  <button className="px-4 py-2 bg-blue-500 text-white text-sm rounded-md hover:bg-blue-600 transition-colors">Login</button>}
+              {user.userloggedIn ? 
+                <button className="ml-4 px-4 py-2 bg-green-500 text-white text-sm rounded-md hover:bg-green-600 transition-colors">Sign Up</button>: 
+                <button className="ml-4 px-4 py-2 bg-red-500 text-white text-sm rounded-md hover:bg-red-600 transition-colors">Logout</button>}
             </div>
           </div>
         </div>
       </div>
+
+      <div className="profile">
+      <h2>User Profile</h2>
+      {user.loggedIn ? (
+        <div>
+          <p>Email: {user.email}</p>
+          <p>username:{user.username}</p>
+          {/* Add more user info if needed */}
+        </div>
+      ) : (
+        <p>User is not logged in.</p>
+      )}
+    </div>
     </nav>
   );
 };
