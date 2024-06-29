@@ -9,15 +9,16 @@ import { useSelector } from 'react-redux';
 import { selector } from '../feature/userSlice';
 import CodeEditore from '../components/CodeEditore'
 import CodeSummary from '../components/CodeSummary'
+import CodeReviewContainer from '../components/CodeReviewContainer'
 
 const HomePage = () => {
   const user = useSelector(selector);
   return (
     <div>
       <NavBar/>
-      
-      {user.loggedIn ? <CodeEditore/>:<Hero/>}
-      {user.loggedIn && <CodeSummary/>}
+      <h1>Code Review App</h1>
+      { user.loggedIn ? <CodeReviewContainer/>:<Hero/>}
+      {/* {user.loggedIn && <CodeSummary/>} */}
       <Features/>
       <CodeIllustrationSection/>
       <ConnectWithUs/>
