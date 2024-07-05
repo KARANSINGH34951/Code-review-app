@@ -1,11 +1,11 @@
-import { useState,useEffect } from 'react';
-import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword } from "firebase/auth";
+import { useState, useEffect } from 'react';
+import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, updateProfile } from "firebase/auth";
 import { app } from "../firebase/firebaseconfig";
 import { useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { login } from '../feature/userSlice';
+import img2 from "../utilis/img2.jpg";
 import gsap from 'gsap';
-
 
 const auth = getAuth(app);
 
@@ -20,14 +20,13 @@ const SignUp = () => {
   const [loading, setLoading] = useState(false);
   const [signIn, setSignIn] = useState(true);
   const [msg, setMsg] = useState("");
-  
 
   const handleClick = () => {
     setMsg("");
-    setUsername("")
-    setPassword("")
-    setEmail("")
-    setConfirmPassword("")
+    setUsername("");
+    setPassword("");
+    setEmail("");
+    setConfirmPassword("");
     setSignIn(!signIn);
   };
 
@@ -62,21 +61,30 @@ const SignUp = () => {
       createUserWithEmailAndPassword(auth, email, password)
         .then((userCredential) => {
           const user = userCredential.user;
-          console.log(user);
-          setLoading(false);
-          dispatch(login({
-            name: username,
-            email: email,
-            password: password,
-            loggedIn: true
-          }));
-          navigate("/");
+          updateProfile(user, { displayName: username })
+            .then(() => {
+              console.log(user);
+              setLoading(false);
+              dispatch(login({
+                name: username,
+                email: email,
+                password: password,
+                loggedIn: true
+              }));
+              navigate("/");
+            })
+            .catch((error) => {
+              const errorMessage = error.message;
+              setLoading(false);
+              setMsg(errorMessage);
+            });
         })
         .catch((error) => {
           const errorMessage = error.message;
           setLoading(false);
           setMsg(errorMessage);
         });
+        console.log(username, email, password);
     } else {
       signInWithEmailAndPassword(auth, email, password)
         .then((userCredential) => {
@@ -97,7 +105,6 @@ const SignUp = () => {
     }
   };
 
-  // Animation using GSAP (example)
   useEffect(() => {
     gsap.fromTo(".sign-up-container", { opacity: 0, y: -50 }, { opacity: 1, y: 0, duration: 1, ease: "power3.out" });
   }, []);
@@ -182,19 +189,12 @@ const SignUp = () => {
           )}
         </button>
 
-        <button className="text-center justify-center p-3" onClick={handleClick}>
+        <button className="text-center text-black justify-center p-3" onClick={handleClick}>
           {signIn ? "Already a User? Sign In" : "New User? Sign Up Now"}
         </button>
 
-        {/* Engaging Image or Animation */}
         <div className="mt-4 flex justify-center">
-          {/* Example of an engaging image */}
-          <img src="/path/to/your/image.jpg" alt="Welcome Image" className="max-w-full h-auto" />
-
-          {/* Example of GSAP animation (you can modify based on your GSAP setup) */}
-          {/* <div ref={animationRef} className="animation-element">
-              Your GSAP animation here
-          </div> */}
+          <img src={img2} alt="Welcome Image" className="max-w-full h-[90px]" />
         </div>
       </div>
     </div>

@@ -1,11 +1,49 @@
-import React from "react";
-import { useState } from "react";
+import React, { useState } from "react";
+
+const FAQItem = ({ faq, index, activeIndex, toggleAccordion }) => {
+  const isActive = activeIndex === index;
+
+  return (
+    <div
+      key={index}
+      className="bg-gray-100 rounded-lg p-4 shadow-md cursor-pointer"
+      onClick={() => toggleAccordion(index)}
+      aria-expanded={isActive}
+      aria-controls={`faq-answer-${index}`}
+    >
+      <div className="flex justify-between items-center">
+        <h3 className="text-xl font-semibold text-gray-800">{faq.question}</h3>
+        <svg
+          className={`w-6 h-6 transition-transform transform ${
+            isActive ? "rotate-0" : "rotate-180"
+          }`}
+          fill="none"
+          stroke="currentColor"
+          viewBox="0 0 24 24"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            strokeWidth={2}
+            d={isActive ? "M19 9l-7 7-7-7" : "M5 15l7-7 7 7"}
+          />
+        </svg>
+      </div>
+      {isActive && (
+        <p className="text-gray-600 mt-2" id={`faq-answer-${index}`}>
+          {faq.answer}
+        </p>
+      )}
+    </div>
+  );
+};
 
 const FAQSection = () => {
-  // State to manage accordion toggle
+  
   const [activeIndex, setActiveIndex] = useState(null);
 
-  // FAQ data with questions and answers
+  
   const faqs = [
     {
       question: "What is Automated Code Review?",
@@ -29,49 +67,28 @@ const FAQSection = () => {
     },
   ];
 
-  // Function to toggle accordion item
+
   const toggleAccordion = (index) => {
     if (activeIndex === index) {
-      setActiveIndex(null); // Close the accordion if it's already open
+      setActiveIndex(null); 
     } else {
-      setActiveIndex(index); // Open the accordion
+      setActiveIndex(index); 
     }
   };
 
   return (
-    <section id="faq" className="mt-16 w-full max-w-4xl mx-auto">
-      <div className=" p-6 rounded-lg shadow-lg">
+    <section id="faq" className="mt-16 w-full max-w-6xl mx-auto">
+      <div className="p-6 rounded-lg shadow-lg">
         <h2 className="text-3xl font-bold text-gray-800 mb-8 text-center">FAQ</h2>
         <div className="space-y-4">
           {faqs.map((faq, index) => (
-            <div
+            <FAQItem
               key={index}
-              className="bg-gray-100 rounded-lg p-4 shadow-md cursor-pointer"
-              onClick={() => toggleAccordion(index)}
-            >
-              <div className="flex justify-between items-center">
-                <h3 className="text-xl font-semibold text-gray-800">{faq.question}</h3>
-                <svg
-                  className={`w-6 h-6 transition-transform transform ${
-                    activeIndex === index ? "rotate-0" : "rotate-180"
-                  }`}
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d={activeIndex === index ? "M19 9l-7 7-7-7" : "M5 15l7-7 7 7"}
-                  />
-                </svg>
-              </div>
-              {activeIndex === index && (
-                <p className="text-gray-600 mt-2">{faq.answer}</p>
-              )}
-            </div>
+              faq={faq}
+              index={index}
+              activeIndex={activeIndex}
+              toggleAccordion={toggleAccordion}
+            />
           ))}
         </div>
       </div>

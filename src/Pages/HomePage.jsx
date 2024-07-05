@@ -7,8 +7,7 @@ import Footer from '../components/Footer'
 import NavBar from "../components/NavBar"
 import { useSelector } from 'react-redux';
 import { selector } from '../feature/userSlice';
-import CodeEditore from '../components/CodeEditore'
-import CodeSummary from '../components/CodeSummary'
+
 import CodeReviewContainer from '../components/CodeReviewContainer'
 
 const HomePage = () => {
@@ -16,9 +15,10 @@ const HomePage = () => {
   return (
     <div>
       <NavBar/>
-      <h1>Code Review App</h1>
-      { user.loggedIn ? <CodeReviewContainer/>:<Hero/>}
-      {/* {user.loggedIn && <CodeSummary/>} */}
+     
+      { user.loggedIn ?<div className=' p-6 rounded-sm '>
+        <CodeReviewContainer/>
+      </div>:<Hero/>}
       <Features/>
       <CodeIllustrationSection/>
       <ConnectWithUs/>
