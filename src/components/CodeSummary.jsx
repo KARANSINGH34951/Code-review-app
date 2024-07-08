@@ -1,14 +1,14 @@
-import React from "react";
-import { FaRegCopy } from "react-icons/fa";
+import React from 'react';
+import { FaRegCopy } from 'react-icons/fa';
 
 const CodeSummary = ({ summary, loading }) => {
   const handleCopy = () => {
     navigator.clipboard.writeText(summary);
-    alert("Code copied to clipboard!");
+    alert('Code copied to clipboard!');
   };
 
   return (
-    <div className="flex-1 bg-white p-4 rounded shadow">
+    <div className="flex-1 bg-white p-4 rounded shadow h-full">
       <div className="flex justify-between items-center">
         <h2 className="text-lg text-black font-bold mb-2">
           Your Code Optimizer, Jam is Here!
@@ -28,7 +28,7 @@ const CodeSummary = ({ summary, loading }) => {
           <div className="loader ease-linear rounded-full border-8 border-t-8 border-gray-200 h-32 w-32"></div>
         </div>
       ) : (
-        <pre className="text-sm text-center mt-5 text-black whitespace-pre-wrap">
+        <pre className="text-sm text-center mt-5 text-black whitespace-pre-wrap break-words h-full">
           {summary}
         </pre>
       )}

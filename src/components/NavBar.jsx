@@ -63,7 +63,7 @@ const NavBar = () => {
             <div className="ml-4 flex items-center md:ml-6">
               {!user.loggedIn ? (
                 <>
-                  <Link to="/login">
+                  <Link to="/signup">
                     <button className="px-4 py-2 bg-blue-500 text-white text-sm rounded-md hover:bg-blue-600 transition-colors">
                       Login
                     </button>
@@ -110,6 +110,15 @@ const NavBar = () => {
           </div>
         </div>
       </div>
+
+     {user.loggedIn && <div className="mb-4 p-4 bg-gradient-to-r from-blue-500 to-green-500 text-white rounded shadow-lg">
+        <h1 className="text-3xl font-bold mb-2 text-center">Welcome to Code Review App</h1>
+        {/* <p className="text-lg">
+          Our Code Review App is designed to make your coding journey smoother. Analyze, summarize,
+          improve, and document your code with ease. Simply paste your code below, and let our tools
+          enhance your coding experience.
+        </p> */}
+      </div>}
     </nav>
   );
 };

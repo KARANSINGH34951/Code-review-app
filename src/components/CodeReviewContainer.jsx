@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
-import CodeEditor from "./CodeEditore";
+import CodeEditor from './CodeEditore';
 import CodeSummary from './CodeSummary';
-import { getGroqChatCompletion } from './Groq'; 
+import { getGroqChatCompletion } from './Groq';
 
 const CodeReviewContainer = () => {
   const [code, setCode] = useState('');

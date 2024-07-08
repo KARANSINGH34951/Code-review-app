@@ -4,9 +4,9 @@ import { app } from "../firebase/firebaseconfig";
 import { useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { login } from '../feature/userSlice';
-import img2 from "../utilis/img2.jpg";
 import gsap from 'gsap';
-
+import { FaGoogle } from 'react-icons/fa';
+import { GoogleAuthProvider, signInWithPopup } from 'firebase/auth';
 const auth = getAuth(app);
 
 const SignUp = () => {
@@ -18,6 +18,7 @@ const SignUp = () => {
   const [confirmPassword, setConfirmPassword] = useState("");
   const [acceptedTerms, setAcceptedTerms] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [googleLoading, setGoogleLoading] = useState(false);
   const [signIn, setSignIn] = useState(true);
   const [msg, setMsg] = useState("");
 
@@ -29,6 +30,33 @@ const SignUp = () => {
     setConfirmPassword("");
     setSignIn(!signIn);
   };
+
+  const handleauth = () => {
+    setGoogleLoading(true);
+    const provider = new GoogleAuthProvider();
+    signInWithPopup(auth, provider)
+      .then((result) => {
+        const credential = GoogleAuthProvider.credentialFromResult(result);
+        const token = credential.accessToken;
+        const user = result.user;
+   
+        setGoogleLoading(false);
+        dispatch(login({
+          name: user.displayName,
+          email: user.email,
+          password: user.password,
+          loggedIn: true
+        }));
+        navigate("/");
+      }).catch((error) => {
+        const errorCode = error.code;
+        const errorMessage = error.message;
+        const email = error.customData.email;
+        const credential = GoogleAuthProvider.credentialFromError(error);
+        setGoogleLoading(false);
+        setMsg(errorMessage);
+      });
+  }
 
   const validateEmail = (email) => {
     const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -188,14 +216,31 @@ const SignUp = () => {
             signIn ? "SIGN UP" : "SIGN IN"
           )}
         </button>
-
-        <button className="text-center text-black justify-center p-3" onClick={handleClick}>
+          
+       <div>
+         <button className="text-center text-black justify-center p-3" onClick={handleClick}>
           {signIn ? "Already a User? Sign In" : "New User? Sign Up Now"}
         </button>
-
-        <div className="mt-4 flex justify-center">
-          <img src={img2} alt="Welcome Image" className="max-w-full h-[90px]" />
-        </div>
+       </div>
+      
+       <div className='flex justify-center'>
+        <button onClick={handleauth} className={`flex items-center bg-green-600 px-4 py-2 text-white rounded ${googleLoading ? 'cursor-not-allowed' : ''}`} disabled={googleLoading}>
+          {googleLoading ? (
+            <div className="flex items-center">
+              <svg className="animate-spin h-5 w-5 text-white mr-2" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+                <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+              </svg>
+              <span>Signing In...</span>
+            </div>
+          ) : (
+            <>
+              <FaGoogle style={{ marginRight: '8px' }} />
+              <span>Sign In with Google</span>
+            </>
+          )}
+        </button>
+      </div>
       </div>
     </div>
   );

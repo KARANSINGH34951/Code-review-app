@@ -8,7 +8,7 @@ export async function getGroqChatCompletion(code, type) {
       messages: [
         {
           role: 'user',
-          content: `${type} this code: ${code} keep it short and simple and make it readable. Show response like chats and if there is no code given further give irrelevent reponse is given.And if the type is improve code give only improve code without any message on screen so that i can copy the program withpout any messsage.`,
+          content: `${type} this code: ${code} keep it short and simple and make it readable. Show response like chats and if there is no code given further give irrelevent reponse is given.And if the type is improve code give only improve code without any message on screen so that i can copy the program for my VS code editor withpout any messsage.`,
         },
       ],
       model: 'llama3-8b-8192',

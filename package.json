@@ -13,6 +13,7 @@
     "@headlessui/react": "^2.1.1",
     "@reduxjs/toolkit": "^2.2.5",
     "ace-builds": "^1.35.1",
+    "brace": "^0.11.1",
     "dotenv": "^16.4.5",
     "firebase": "^10.12.2",
     "groq-sdk": "^0.5.0",
