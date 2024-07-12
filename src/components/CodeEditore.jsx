@@ -1,3 +1,4 @@
+// CodeEditor.jsx
 import React, { useEffect } from 'react';
 import AceEditor from 'react-ace';
 import ace from 'brace';
